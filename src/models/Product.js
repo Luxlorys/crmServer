@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const handleMongooseError=require("../../helpers");
 const productShema = new Schema(
   {
     product_name: {
@@ -6,31 +7,18 @@ const productShema = new Schema(
       required: true,
     },
     price: {
-        type:Number,
-        min:0,
-        require:true
+      type: Number,
+      min: 0,
+      require: true,
     },
-    description:{
-        type:String
+    description: {
+      type: String,
     },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
-    updatedAt: {
-      type: Date,
-      default: Date.now
-    }
-    
   },
-  { versionKey: false }
+  { versionKey: false, timestamps: true }
 );
 const Products = model("product", productShema);
-//Функцию нужно вынести в helpers
-const handleMongooseError=(error,data,next)=>{
-    error.status=400;
-    next()
-}
-productShema.post("save",handleMongooseError);
+
+productShema.post("save", handleMongooseError);
 
 module.exports = Products;

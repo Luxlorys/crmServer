@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Product = require("../models/Product");
+const {HttpError}=require("../../helpers");
 
 const getProducts = async () => {
   return Product.find();
@@ -8,7 +9,7 @@ const getById = async (productId) => {
   const result = await Product.findById(productId);
 
   if (!result) {
-    throw { status: 404, message: "Not found" };
+    throw HttpError(404, "Not found");
   }
   return result;
 };
@@ -18,7 +19,7 @@ const createProduct = async (payload) => {
 const removeProduct = async (productId) => {
   const result = await Product.findByIdAndDelete(productId);
   if (!result) {
-    throw { status: 404, message: "Not found" };
+    throw HttpError(404, "Not found");
   }
   return result;
 };
@@ -26,7 +27,7 @@ const removeProduct = async (productId) => {
 const updateById = async (productId, payload) => {
   const result = await Product.findByIdAndUpdate(productId, payload);
   if (!result) {
-    throw { status: 404, message: "Not found" };
+    throw HttpError(404, "Not found");
   }
   return result;
 };
