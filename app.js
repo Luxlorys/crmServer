@@ -4,6 +4,7 @@ const cors = require("cors");
 const cookieParser = require('cookie-parser');
 const {checkCurrentUser, requireAuth} = require("./src/middlewares/authMiddleware");
 const userRoutes = require('./src/routes/userRoutes');
+const productRoutes= require("./src/routes/productRoutes");
 
 
 const app = express();
@@ -21,6 +22,8 @@ app.get("*", checkCurrentUser); // for every request check current user
 app.get('/home', requireAuth, (req, res) => res.status(201).json({ message: "home page"}));
 
 app.use(userRoutes);
+
+app.use('/products',productRoutes);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
